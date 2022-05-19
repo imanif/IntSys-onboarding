@@ -1,3 +1,5 @@
+# collab w Salma Hazimeh
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -15,23 +17,24 @@ class LogisticRegressionModel(nn.Module):
     :param num_param: The number of parameters that need to be initialized.
     :type num_param: int
     """
+
     def __init__(self, num_param):
-        ## TODO 1: Set up network
+        # TODO 1: Set up network
         super().__init__()
-        pass
+        self.linear = nn.Linear(1, num_param)
 
     def forward(self, x):
         """forward generates the predictions for the input
-        
+
         This function does not have to be called explicitly. We can do the
         following 
-        
+
         .. highlight:: python
         .. code-block:: python
 
             model = LogisticRegressionModel(1, logistic_loss)
             predictions = model(X)
-    
+
         :param x: Input array of shape (n_samples, n_features) which we want to
             evaluate on
         :type x: typing.Union[torch.Tensor]
@@ -39,8 +42,8 @@ class LogisticRegressionModel(nn.Module):
         :rtype: torch.Tensor
         """
 
-        ## TODO 2: Implement the logistic regression on sample x
-        pass
+        # TODO 2: Implement the logistic regression on sample x
+        return self.linear(x)
 
 
 class MultinomialRegressionModel(nn.Module):
@@ -55,31 +58,32 @@ class MultinomialRegressionModel(nn.Module):
 
     .. seealso:: :class:`LogisticRegressionModel`
     """
+
     def __init__(self, num_param, loss_fn):
         super().__init__()
-        ## TODO 3: Set up network
+        # TODO 3: Set up network
         # NOTE: THIS IS A BONUS AND IS NOT EXPECTED FOR YOU TO BE ABLE TO DO
         pass
 
     def forward(self, x):
         """forward generates the predictions for the input
-        
+
         This function does not have to be called explicitly. We can do the
         following 
-        
+
         .. highlight:: python
         .. code-block:: python
 
             model = MultinomialRegressionModel(1, cross_entropy_loss)
             predictions = model(X)
-    
+
         :param x: Input array of shape (n_samples, n_features) which we want to
             evaluate on
         :type x: typing.Union[np.ndarray, torch.Tensor]
         :return: The predictions on x
         :rtype: torch.Tensor
         """
-        ## TODO 4: Implement the logistic regression on sample x
+        # TODO 4: Implement the logistic regression on sample x
         # NOTE: THIS IS A BONUS AND IS NOT EXPECTED FOR YOU TO BE ABLE TO DO
         pass
 
@@ -113,7 +117,7 @@ def logistic_loss(output, target):
 def cross_entropy_loss(output, target):
     """Creates a criterion that measures the Cross Entropy
     between the target and the output:
-    
+
     It is useful when training a classification problem with `C` classes.
 
     :param output: The output of the model or our predictions

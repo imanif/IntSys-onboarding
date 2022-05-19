@@ -1,3 +1,5 @@
+# done in collaboration w Salma Hazimeh
+
 import csv
 import numpy as np
 from torch.utils.data import Dataset, DataLoader, SubsetRandomSampler
@@ -13,7 +15,7 @@ class SimpleDataset(Dataset):
     """
 
     def __init__(self, path_to_csv, transform=None):
-        # TODO: Add cofdkjnfkadnfjk˜åede to read csv and load data.
+        # TODO: Add code to read csv and load data.
         # You should store the data in a field.
         # Eg (on how to read .csv files):
         # with open('path/to/.csv', 'r') as f:
@@ -21,7 +23,16 @@ class SimpleDataset(Dataset):
         # Look up how to read .csv files using Python. This is common for datasets in projects.
 
         self.transform = transform
-        pass
+        rows = []
+        with open(path_to_csv, 'r') as file:
+            csv_reader = csv.reader(file)
+            header = ['x', 'y', '#']
+            print(header)
+            lines = []
+            for row in csv_reader:
+                rows.append(row)
+            print(lines)
+            file.close()
 
     def __len__(self):
         """__len__ [summary]
@@ -29,7 +40,9 @@ class SimpleDataset(Dataset):
         [extended_summary]
         """
         # TODO: Returns the length of the dataset.
-        pass
+        rf = csv.reader(self)
+        val = len(list(rf))
+        return val
 
     def __getitem__(self, index):
         """__getitem__ [summary]
@@ -48,8 +61,12 @@ class SimpleDataset(Dataset):
         # if self.transform:
         #   sample = self.transform(sample)
         # Remember to convert the x and y into torch tensors.
-
-        pass
+        i_data = self[:index].as_matrix()
+        i_data = i_data.astype('float')
+        sample = {'y': np.array([i_data[2]]), 'x': np.delete(i_data, 2)}
+        if self.transform:
+            sample = self.transform(sample)
+        return sample
 
 
 def get_data_loaders(path_to_csv,
@@ -80,9 +97,10 @@ def get_data_loaders(path_to_csv,
     # are formed.
 
     # BEGIN: YOUR CODE
-    train_indices = []
-    val_indices = []
-    test_indices = []
+    i = int(dataset_size/3)
+    train_indices = dataset[:i]
+    val_indices = dataset[-i:]
+    test_indices = dataset[i:][:i]
     # END: YOUR CODE
 
     # Now, we define samplers for each of the train, val and test data
