@@ -5,60 +5,61 @@ from torch.utils.data import Dataset, DataLoader, SubsetRandomSampler
 
 class SimpleDataset(Dataset):
     """SimpleDataset [summary]
-    
+
     [extended_summary]
-    
+
     :param path_to_csv: [description]
     :type path_to_csv: [type]
     """
+
     def __init__(self, path_to_csv, transform=None):
-        ## TODO: Add code to read csv and load data. 
-        ## You should store the data in a field.
+        # TODO: Add cofdkjnfkadnfjk˜åede to read csv and load data.
+        # You should store the data in a field.
         # Eg (on how to read .csv files):
         # with open('path/to/.csv', 'r') as f:
         #   lines = ...
-        ## Look up how to read .csv files using Python. This is common for datasets in projects.
+        # Look up how to read .csv files using Python. This is common for datasets in projects.
 
         self.transform = transform
         pass
 
     def __len__(self):
         """__len__ [summary]
-        
+
         [extended_summary]
         """
-        ## TODO: Returns the length of the dataset.
+        # TODO: Returns the length of the dataset.
         pass
 
     def __getitem__(self, index):
         """__getitem__ [summary]
-        
+
         [extended_summary]
-        
+
         :param index: [description]
         :type index: [type]
         """
-        ## TODO: This returns only ONE sample from the dataset, for a given index.
-        ## The returned sample should be a tuple (x, y) where x is your input 
-        ## vector and y is your label
-        ## Before returning your sample, you should check if there is a transform
-        ## sepcified, and pply that transform to your sample
+        # TODO: This returns only ONE sample from the dataset, for a given index.
+        # The returned sample should be a tuple (x, y) where x is your input
+        # vector and y is your label
+        # Before returning your sample, you should check if there is a transform
+        # sepcified, and pply that transform to your sample
         # Eg:
         # if self.transform:
         #   sample = self.transform(sample)
-        ## Remember to convert the x and y into torch tensors.
+        # Remember to convert the x and y into torch tensors.
 
         pass
 
 
-def get_data_loaders(path_to_csv, 
+def get_data_loaders(path_to_csv,
                      transform_fn=None,
-                     train_val_test=[0.8, 0.2, 0.2], 
+                     train_val_test=[0.8, 0.2, 0.2],
                      batch_size=32):
     """get_data_loaders [summary]
-    
+
     [extended_summary]
-    
+
     :param path_to_csv: [description]
     :type path_to_csv: [type]
     :param train_val_test: [description], defaults to [0.8, 0.2, 0.2]
@@ -75,23 +76,26 @@ def get_data_loaders(path_to_csv,
     dataset_size = len(dataset)
     indices = list(range(dataset_size))
 
-    ## TODO: Rewrite this section so that the indices for each dataset split
-    ## are formed.
+    # TODO: Rewrite this section so that the indices for each dataset split
+    # are formed.
 
-    ## BEGIN: YOUR CODE
+    # BEGIN: YOUR CODE
     train_indices = []
     val_indices = []
     test_indices = []
-    ## END: YOUR CODE
+    # END: YOUR CODE
 
     # Now, we define samplers for each of the train, val and test data
     train_sampler = SubsetRandomSampler(train_indices)
-    train_loader = DataLoader(dataset, batch_size=batch_size, sampler=train_sampler)
+    train_loader = DataLoader(
+        dataset, batch_size=batch_size, sampler=train_sampler)
 
     val_sampler = SubsetRandomSampler(val_indices)
-    val_loader = DataLoader(dataset, batch_size=batch_size, sampler=val_sampler)
+    val_loader = DataLoader(
+        dataset, batch_size=batch_size, sampler=val_sampler)
 
     test_sampler = SubsetRandomSampler(test_indices)
-    test_loader = DataLoader(dataset, batch_size=batch_size, sampler=test_sampler)
+    test_loader = DataLoader(
+        dataset, batch_size=batch_size, sampler=test_sampler)
 
     return train_loader, val_loader, test_loader

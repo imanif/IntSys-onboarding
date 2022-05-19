@@ -1,3 +1,5 @@
+# collab w Salma Hazimeh
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -15,44 +17,44 @@ class LinearRegressionModel(nn.Module):
     """
 
     def __init__(self, num_param):
-        ## TODO 1: Set up network
+        # TODO 1: Set up network
         super().__init__()
-        pass
+        self.linear = nn.Linear(1, num_param)
 
     def forward(self, x):
         """forward generates the predictions for the input
-        
+
         This function does not have to be called explicitly. We can do the
         following 
-        
+
         .. highlight:: python
         .. code-block:: python
 
             model = LinearRegressionModel(1, mse_loss)
             predictions = model(X)
-    
+
         :param x: Input array of shape (n_samples, n_features) which we want to
             evaluate on
         :type x: typing.Union[np.ndarray, torch.Tensor]
         :return: The predictions on x
         :rtype: torch.Tensor
         """
-        ## TODO 2: Implement the linear regression on sample x
-        pass
+        # TODO 2: Implement the linear regression on sample x
+        return self.linear(x)
 
 
 def data_transform(sample):
-    ## TODO: Define a transform on a given (x, y) sample. This can be used, for example
-    ## for changing the feature representation of your data so that Linear regression works
-    ## better.
+    # TODO: Define a transform on a given (x, y) sample. This can be used, for example
+    # for changing the feature representation of your data so that Linear regression works
+    # better.
     x, y = sample
-    return sample  ## You might want to change this
+    return sample  # You might want to change this
 
 
 def mse_loss(output, target):
     """Creates a criterion that measures the mean squared error (squared L2 norm) between
     each element in the input :math:`output` and target :math:`target`.
-    
+
     The loss can be described as:
 
     .. math::
@@ -63,7 +65,7 @@ def mse_loss(output, target):
 
     :math:`output` and :math:`target` are tensors of arbitrary shapes with a total
     of :math:`n` elements each.
-    
+
     :param output: The output of the model or our predictions
     :type output: torch.Tensor
     :param target: The expected output or our labels
@@ -71,15 +73,16 @@ def mse_loss(output, target):
     :return: torch.Tensor
     :rtype: torch.Tensor
     """
-    ## TODO 3: Implement Mean-Squared Error loss. 
+    # TODO 3: Implement Mean-Squared Error loss.
     # Use PyTorch operations to return a PyTorch tensor
-    pass
+    criterion = nn.MSELoss()
+    return criterion
 
 
 def mae_loss(output, target):
     """Creates a criterion that measures the mean absolute error (l1 loss)
     between each element in the input :math:`output` and target :math:`target`.
-    
+
     The loss can be described as:
 
     .. math::
@@ -90,7 +93,7 @@ def mae_loss(output, target):
 
     :math:`output` and :math:`target` are tensors of arbitrary shapes with a total
     of :math:`n` elements each.
-    
+
     :param output: The output of the model or our predictions
     :type output: torch.Tensor
     :param target: The expected output or our labels
@@ -98,30 +101,32 @@ def mae_loss(output, target):
     :return: torch.Tensor
     :rtype: torch.Tensor
     """
-    ## TODO 4: Implement L1 loss. Use PyTorch operations.
+    # TODO 4: Implement L1 loss. Use PyTorch operations.
     # Use PyTorch operations to return a PyTorch tensor.
-    pass
+    mae = nn.L1Loss()
+    output = mae(input, target)
+    print(output)
 
 
 if __name__ == "__main__":
-    ## Here you will want to create the relevant dataloaders for the csv files for which 
-    ## you think you should use Linear Regression. The syntax for doing this is something like:
+    # Here you will want to create the relevant dataloaders for the csv files for which
+    # you think you should use Linear Regression. The syntax for doing this is something like:
     # Eg:
     # train_loader, val_loader, test_loader =\
-    #   get_data_loaders(path_to_csv, 
+    #   get_data_loaders(path_to_csv,
     #                    transform_fn=data_transform  # Can also pass in None here
-    #                    train_val_test=[YOUR TRAIN/VAL/TEST SPLIT], 
+    #                    train_val_test=[YOUR TRAIN/VAL/TEST SPLIT],
     #                    batch_size=YOUR BATCH SIZE)
 
-    ## Now you will want to initialise your Linear Regression model, using something like
+    # Now you will want to initialise your Linear Regression model, using something like
     # Eg:
     # model = LinearRegressionModel(...)
 
-    ## Then, you will want to define your optimizer (the thing that updates your model weights)
+    # Then, you will want to define your optimizer (the thing that updates your model weights)
     # Eg:
     # optimizer = optim.[one of PyTorch's optimizers](model.parameters(), lr=0.01)
 
-    ## Now, you can start your training loop:
+    # Now, you can start your training loop:
     # Eg:
     # model.train()
     # for t in range(TOTAL_TIME_STEPS):
@@ -131,15 +136,15 @@ if __name__ == "__main__":
     #     preds = Feed the input to the model
     #
     #     loss = loss_fn(preds, y)  # You might have to change the shape of things here.
-    #     
-    #     loss.backward() 
+    #
+    #     loss.backward()
     #     optimizer.step()
-    #     
-    ## Don't worry about loss.backward() for now. Think of it as calculating gradients.
+    #
+    # Don't worry about loss.backward() for now. Think of it as calculating gradients.
 
-    ## And voila, your model is trained. Now, use something similar to run your model on
-    ## the validation and test data loaders:
-    # Eg: 
+    # And voila, your model is trained. Now, use something similar to run your model on
+    # the validation and test data loaders:
+    # Eg:
     # model.eval()
     # for batch_index, (input_t, y) in enumerate(val/test_loader):
     #
@@ -147,7 +152,26 @@ if __name__ == "__main__":
     #
     #   loss = loss_fn(preds, y)
     #
-    ## You don't need to do loss.backward() or optimizer.step() here since you are no
-    ## longer training.
+    # You don't need to do loss.backward() or optimizer.step() here since you are no
+    # longer training.
 
-    pass
+    train_loader, val_loader, test_loader = get_data_loaders(
+        path_to_csv='/Users/imani/cds/onboarding/IntSys-Education/a2/data/DS1.csv', transform_fn=None, train_val_test=[0.8, 0.2, 0.2], batch_size=32)
+    model = LinearRegressionModel()
+    optimizer = optim.SGD(model.parameters())
+    model.train()
+    for t in range(500):
+        for batch_index, (input_t, y) in enumerate(train_loader):
+            optimizer.zero_grad()
+            preds = model(input)
+            loss = mse_loss(preds, y)
+            loss.backward()
+            optimizer.step()
+    model.eval()
+    for batch_index, (input_t, y) in enumerate(val_loader):
+        preds = model(input)
+        loss = mse_loss(preds, y)
+    model.test()
+    for batch_index, (input_t, y) in enumerate(test_loader):
+        preds = model(input)
+        loss = mse_loss(preds, y)
